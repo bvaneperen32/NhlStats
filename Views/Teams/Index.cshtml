@@ -3,7 +3,16 @@
     var currentSortOrder = ViewData["SortOrder"] as string;
     var nextSortOrderWins = currentSortOrder == "wins_desc" ? "wins_asc" : "wins_desc";
     var nextSortOrderPoints = currentSortOrder == "points_desc" ? "points_asc" : "points_desc";
-}
+    var seasons = ViewData["Seasons"] as List<NhlStats.Models.Season>;
+    var selectedSeasonId = ViewData["SelectedSeasonId"] as int?;
+
+    string GenerateOption(NhlStats.Models.Season season, int? selectedSeasonId)
+    {
+        var selectedAttribute = season.SeasonId == selectedSeasonId ? " selected" : "";
+        return $"<option value=\"{season.SeasonId}\"{selectedAttribute}>{season.FormattedSeasonId}</option>";
+    }
+    }
+
 
 <!DOCTYPE html>
 <html>
@@ -14,6 +23,16 @@
 <body>
     <div class="container">
         <h1>NHL Teams</h1>
+        <form method="get" asp-action="Index">
+            <label for="seasonSelect">Select Season:</label>
+            <select id="seasonSelect" name="selectedSeasonId" onchange="this.form.submit()">
+                @foreach (var season in seasons)
+                {
+                    @Html.Raw(GenerateOption(season, selectedSeasonId))
+                }
+            </select>
+            <input type="hidden" name="sortOrder" value="@currentSortOrder" />
+        </form>
         <table class="table">
             <thead>
                 <tr>
@@ -50,7 +69,7 @@
                 {
                     <tr>
                         <td>
-                            <a asp-action="Details" asp-route-teamName="@team.TeamName">
+                            <a asp-action="Details" asp-route-seasonId="@selectedSeasonId" asp-route-teamName="@team.TeamName">
                             @team.TeamName
                             </a>
                         </td>

@@ -15,13 +15,20 @@ namespace NhlStats.Controllers
             _nhlApiService = nhlApiService;
         }
 
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, int? selectedSeasonId)
         {
-            List<Team> teams = await _nhlApiService.GetTeamsAsync();
+            List<Season> seasons = await _nhlApiService.GetSeasonsAsync();
+            ViewData["Seasons"] = seasons;
+
+            selectedSeasonId ??= seasons.Max(s => s.SeasonId); 
+
+            Season selectedSeason = seasons.FirstOrDefault(s => s.SeasonId == selectedSeasonId);
+            List<Team> teams = await _nhlApiService.GetTeamsAsync(selectedSeason.EndDate);
 
             sortOrder = string.IsNullOrEmpty(sortOrder) ? "wins_desc" : sortOrder;
 
             ViewData["SortOrder"] = sortOrder;
+            ViewData["SelectedSeasonId"] = selectedSeasonId; 
 
             teams = sortOrder switch
             {
@@ -35,12 +42,21 @@ namespace NhlStats.Controllers
             return View(teams);
         }
 
-        public async Task<IActionResult> Details(string teamName)
+        public async Task<IActionResult> Details(int seasonId, string teamName)
         {
-            var team = await _nhlApiService.getTeamAsync(teamName);
+            List<Season> seasons = await _nhlApiService.GetSeasonsAsync();
+            Season selectedseason = seasons.FirstOrDefault(s => s.SeasonId == seasonId);
+
+            if (selectedseason == null)
+            {
+                return NotFound();
+            }
+
+            var team = await _nhlApiService.getTeamAsync(selectedseason.EndDate, teamName);
+
             if (team == null)
             {
-                return View("Error");
+                return NotFound();
             }
 
             return View(team);
