@@ -1,0 +1,66 @@
+﻿@model IEnumerable<NhlStats.Models.Team>
+@{
+    var currentSortOrder = ViewData["SortOrder"] as string;
+    var nextSortOrderWins = currentSortOrder == "wins_desc" ? "wins_asc" : "wins_desc";
+    var nextSortOrderPoints = currentSortOrder == "points_desc" ? "points_asc" : "points_desc";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NHL Teams</title>
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>NHL Teams</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Team Name</th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@nextSortOrderWins">
+                            Wins @if (currentSortOrder == "wins_desc")
+                            {
+                                <span>&#x25B2;</span>
+                            }
+                            else
+                            {
+                                <span>&#x25BC;</span>
+                            }
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@nextSortOrderPoints">
+                            Points @if (currentSortOrder == "points_desc")
+                            {
+                                <span>&#x25B2;</span>
+                            }
+                            else
+                            {
+                                <span>&#x25BC;</span>
+                            }
+                        </a>
+                    </th>
+                    <th>Logo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var team in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-route-teamName="@team.TeamName">
+                            @team.TeamName
+                            </a>
+                        </td>
+                        <td>@team.Wins</td>
+                        <td>@team.Points</td>
+                        <td><img src="@team.TeamLogo" alt="@team.TeamName Logo" width="50" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

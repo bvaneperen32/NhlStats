@@ -1,0 +1,42 @@
+﻿@model NhlStats.Models.Team
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Model.TeamName - Details</title>
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>@Model.TeamName</h1>
+        <img src="@Model.TeamLogo" alt="@Model.TeamName Logo" width="100" />
+        <table class="table">
+            <tr>
+                <th>Conference</th>
+                <td>@Model.Conference</td>
+            </tr>
+            <tr>
+                <th>Division</th>
+                <td>@Model.Division</td>
+            </tr>
+            <tr>
+                <th>W-L Record</th>
+                <td>@Model.Wins - @Model.Losses - @Model.OtLosses</td>
+            </tr>
+            <tr>
+                <th>Win Percentage</th>
+                <td>@Model.RoundedWinPctg</td>
+            </tr>
+            <tr>
+                <th>Goal Differential</th>
+                <td>@Model.GoalDifferential</td>
+            </tr>
+            <tr>
+                <th>Season</th>
+                <td>@Model.FormattedSeasonId.</td>
+            </tr>
+        </table>
+        <a href="@Url.Action("Index", "Teams")">Back to List</a>
+    </div>
+</body>
+</html>
