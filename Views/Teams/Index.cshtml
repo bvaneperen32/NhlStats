@@ -69,13 +69,17 @@
                 {
                     <tr>
                         <td>
-                            <a asp-action="Details" asp-route-seasonId="@selectedSeasonId" asp-route-teamName="@team.TeamName">
+                            <a asp-action="Details" asp-route-seasonId="@selectedSeasonId" asp-route-teamName="@team.TeamName" class="team-link">
                             @team.TeamName
                             </a>
                         </td>
                         <td>@team.Wins</td>
                         <td>@team.Points</td>
-                        <td><img src="@team.TeamLogo" alt="@team.TeamName Logo" width="50" /></td>
+                        <td>
+                            <a asp-action="Details" asp-route-seasonId="@selectedSeasonId" asp-route-teamName="@team.TeamName">
+                            <img src="@team.TeamLogo" alt="@team.TeamName Logo" class="team-logo" />
+                            </a>
+                            </td>
                     </tr>
                 }
             </tbody>
