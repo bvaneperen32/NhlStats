@@ -38,7 +38,7 @@
                 <tr>
                     <th>Team Name</th>
                     <th>
-                        <a asp-action="Index" asp-route-sortOrder="@nextSortOrderWins">
+                        <a asp-action="Index" asp-route-sortOrder="@nextSortOrderWins" asp-route-selectedSeasonId="@selectedSeasonId">
                             Wins @if (currentSortOrder == "wins_desc")
                             {
                                 <span>&#x25B2;</span>
@@ -50,7 +50,7 @@
                         </a>
                     </th>
                     <th>
-                        <a asp-action="Index" asp-route-sortOrder="@nextSortOrderPoints">
+                        <a asp-action="Index" asp-route-sortOrder="@nextSortOrderPoints" asp-route-selectedSeasonId="@selectedSeasonId">
                             Points @if (currentSortOrder == "points_desc")
                             {
                                 <span>&#x25B2;</span>

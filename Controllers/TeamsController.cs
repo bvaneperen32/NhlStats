@@ -59,6 +59,9 @@ namespace NhlStats.Controllers
                 return NotFound();
             }
 
+            ViewBag.SelectedSeasonId = seasonId;
+            ViewBag.SortOrder = HttpContext.Request.Query["sortOrder"]; 
+
             return View(team);
         }
     }
